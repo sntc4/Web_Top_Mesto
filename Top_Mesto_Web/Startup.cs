@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +12,7 @@ using Top_Mesto_Web.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Top_Mesto_Web.Models;
 
 namespace Top_Mesto_Web
 {
@@ -34,6 +35,9 @@ namespace Top_Mesto_Web
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddDbContext<Top_Mesto_WebContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("Top_Mesto_WebContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
