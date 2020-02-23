@@ -1,26 +1,74 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-var btnSport = document.querySelector('#sport');
-var navigation = document.querySelector('#category');
-//btn.classList.add('redBack');
-btnSport.addEventListener('click', function (evt) {
-	evt.preventDefault();
-	//this.classList.add('redBack');
-	var navigations = document.querySelectorAll('li');
+﻿var navigation = document.querySelector('.category');
+var navigations = document.querySelectorAll('.navigation');
+firsMenu(navigations);
+
+function createBTN(text, id) {
+	var newBtn = document.createElement('li');
+	var link = document.createElement('a');
+	link.classList.add('navigation');
+	link.setAttribute('href', '#');
+	link.setAttribute('id', id);
+	link.textContent = text;
+	newBtn.append(link);
+	return newBtn;
+}
+
+function ComeBackBaseComplect() {
+	var oldUlcontanier = document.querySelector('#category');
+	var oldUl = document.querySelector('.category');
+	oldUl.remove();
+	var newUl = document.createElement('ul');
+	newUl.classList.add('category');
+	newUl.appendChild(createBTN('Спорт', 'sport'));
+	newUl.appendChild(createBTN('Кинотеатры', 'cinema'));
+	newUl.appendChild(createBTN('Парки', 'parks'));
+	oldUlcontanier.appendChild(newUl);
+}
+
+function DeleteNavigations() {
+	let navigations = document.querySelectorAll('.navigation');
 	for (var i = 0; i < navigations.length; i++) {
 		navigations[i].remove();
 	}
-	var year30VLKSM = document.createElement('a');
-	year30VLKSM.classList.add('navigation');
-	year30VLKSM.setAttribute('href', '#');
-	year30VLKSM.textContent = 'Зеленый остров';
-	var newLi = document.createElement('li');
-	newLi.append(year30VLKSM);
-	navigation.append(newLi);
-	year30VLKSM.addEventListener('click', function (evt) {
-		evt.preventDefault();
-		var description = document.querySelector('#description');
-		var textDescription = 'Зеленый остров это классный парк, где можно искупиться в проруби';
-		description.textContent = textDescription;
-	});
-});
+}
+
+function AddDescription(name, text) {
+	var par = document.querySelector('#descriptionName');
+	par.textContent = name;
+	var content = document.querySelector('#descriptionText');
+	content.textContent = text;
+}
+
+function firsMenu(navigations) {
+	for (var i = 0; i < navigations.length; i++) {
+		navigations[i].addEventListener('click', function (evt) {
+
+			switch (this.id) {
+				case 'sport':
+					DeleteNavigations();
+					navigation.appendChild(createBTN('Качалочка', 'sport1'));
+					navigation.appendChild(createBTN('<< Назад', 'back'));
+					break;
+				case 'cinema':
+					DeleteNavigations();
+					navigation.appendChild(createBTN('Кинотеатр Маяковский', 'cinema1'));
+					navigation.appendChild(createBTN('<< Назад', 'back'));
+					break;
+				case 'parks':
+					DeleteNavigations();
+					navigation.appendChild(createBTN('Зеленый остров', 'park1'));
+					navigation.appendChild(createBTN('<< Назад', 'back'));
+					break;
+				case 'sport1':
+					AddDescription('Фитнес Клуб Alex Fitness', 'Время работы: ежедневно 07:00-22:00<br>Адрес: ул.Дианова, 7 / 1, Омск, Омская обл., 644106<br>Средняя цена: 37 руб в день')
+					navigation.appendChild(createBTN('<< Назад', 'back'));
+					break;
+				case 'back':
+					ComeBackBaseComplect();
+					break;
+			}
+			var newNaw = document.querySelectorAll('.navigation');
+			firsMenu(newNaw);
+		});
+	}
+}
